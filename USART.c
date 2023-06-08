@@ -4,8 +4,8 @@
 #include"sys.h"
 #include"delay.h"
 #define USART_REC_LEN 200
-#define WRITE_CMD 0xF8//Ğ´ÃüÁî
-#define WRITE_DAT 0xFA//Ğ´Êı¾İ
+#define WRITE_CMD 0xF8//å†™å‘½ä»¤
+#define WRITE_DAT 0xFA//å†™æ•°æ®
 #define SID PFout(15)
 #define SCLK PFout(14)
 #define CS PGout(1)
@@ -24,29 +24,29 @@ static u8 LCD_addr[4][8]={
 };
 void init_LCD_GPIO()
 {
-	//GPIO ³õÊ¼»¯´úÂë
-	//Ê¹ÄÜ(´ò¿ª)¶Ë¿ÚGµÄÓ²¼şÊ±ÖÓ£¬¾ÍÊÇ¶Ô¶Ë¿ÚF¹©µç
+	//GPIO åˆå§‹åŒ–ä»£ç 
+	//ä½¿èƒ½(æ‰“å¼€)ç«¯å£Gçš„ç¡¬ä»¶æ—¶é’Ÿï¼Œå°±æ˜¯å¯¹ç«¯å£Fä¾›ç”µ
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG, ENABLE);
 	
 
-	//³õÊ¼»¯GPIOÒı½Å
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;		//µÚ11¸ùÒı½Å
-	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_OUT;	//Êä³öÄ£Ê½
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//ÍÆÍìÊä³ö£¬Ôö¼ÓÊä³öµçÁ÷ÄÜÁ¦¡£
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//¸ßËÙÏìÓ¦
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	//Ã»ÓĞÊ¹ÄÜÉÏÏÂÀ­µç×è
+	//åˆå§‹åŒ–GPIOå¼•è„š
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;		//ç¬¬11æ ¹å¼•è„š
+	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_OUT;	//è¾“å‡ºæ¨¡å¼
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//æ¨æŒ½è¾“å‡ºï¼Œå¢åŠ è¾“å‡ºç”µæµèƒ½åŠ›ã€‚
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//é«˜é€Ÿå“åº”
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	//æ²¡æœ‰ä½¿èƒ½ä¸Šä¸‹æ‹‰ç”µé˜»
 
 	GPIO_Init(GPIOG,&GPIO_InitStructure);
-	//Ê¹ÄÜ(´ò¿ª)¶Ë¿ÚGµÄÓ²¼şÊ±ÖÓ£¬¾ÍÊÇ¶Ô¶Ë¿ÚF¹©µç
+	//ä½¿èƒ½(æ‰“å¼€)ç«¯å£Gçš„ç¡¬ä»¶æ—¶é’Ÿï¼Œå°±æ˜¯å¯¹ç«¯å£Fä¾›ç”µ
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
 
 
-	//³õÊ¼»¯GPIOÒı½Å
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14|GPIO_Pin_15;		//µÚ11¸ùÒı½Å
-	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_OUT;	//Êä³öÄ£Ê½
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//ÍÆÍìÊä³ö£¬Ôö¼ÓÊä³öµçÁ÷ÄÜÁ¦¡£
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//¸ßËÙÏìÓ¦
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	//Ã»ÓĞÊ¹ÄÜÉÏÏÂÀ­µç×è
+	//åˆå§‹åŒ–GPIOå¼•è„š
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14|GPIO_Pin_15;		//ç¬¬11æ ¹å¼•è„š
+	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_OUT;	//è¾“å‡ºæ¨¡å¼
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//æ¨æŒ½è¾“å‡ºï¼Œå¢åŠ è¾“å‡ºç”µæµèƒ½åŠ›ã€‚
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//é«˜é€Ÿå“åº”
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	//æ²¡æœ‰ä½¿èƒ½ä¸Šä¸‹æ‹‰ç”µé˜»
 	GPIO_Init(GPIOF,&GPIO_InitStructure);
 	
 	CS=1;
@@ -113,20 +113,20 @@ void LCD_Clear(void)
 }
 void init_USART1(unsigned int bound)
 {
-	//´ò¿ªUSART1Ê±ÖÓ
+	//æ‰“å¼€USART1æ—¶é’Ÿ
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
-	//´ò¿ªGPIOAÊ±ÖÓ
+	//æ‰“å¼€GPIOAæ—¶é’Ÿ
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	//GPIOA³õÊ¼»¯
+	//GPIOAåˆå§‹åŒ–
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9|GPIO_Pin_10;
 	GPIO_InitStructure.GPIO_OType=GPIO_OType_PP;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-	//GPIOA¶Ë¿Ú¸´ÓÃ
+	//GPIOAç«¯å£å¤ç”¨
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);
-	//USART³õÊ¼»¯
+	//USARTåˆå§‹åŒ–
 	USART_InitStructure.USART_BaudRate = bound;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
@@ -134,19 +134,19 @@ void init_USART1(unsigned int bound)
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 	USART_Init(USART1,  &USART_InitStructure);
-	//ÖĞ¶Ï·½Ê½£¬½ÓÊÕÊı¾İÊ±²úÉúÖĞ¶Ï
+	//ä¸­æ–­æ–¹å¼ï¼Œæ¥æ”¶æ•°æ®æ—¶äº§ç”Ÿä¸­æ–­
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
-	//ÖĞ¶ÏÉèÖÃ
+	//ä¸­æ–­è®¾ç½®
 	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn   ;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
-	//¿ªÆôUSART1
+	//å¼€å¯USART1
 	USART_Cmd(USART1, ENABLE);
 }
 
-//ÖĞ¶Ï´¦Àíº¯Êı
+//ä¸­æ–­å¤„ç†å‡½æ•°
 void USART1_IRQHandler(void)
 {
 	u8 Res;
@@ -154,8 +154,8 @@ void USART1_IRQHandler(void)
 	{
 		Res =USART_ReceiveData(USART1);
 		
-		//²¹³ä´úÂë
-		//¶ÔÓ¦²Ù×÷ USART_RX_STA++;
+		//è¡¥å……ä»£ç 
+		//å¯¹åº”æ“ä½œ USART_RX_STA++;
 		USART_RX_BUF[USART_RX_STA++]=Res;
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 	}
