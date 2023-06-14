@@ -20,28 +20,28 @@ void delay(void)
 
 int main(void)
 {
-	//Ê¹ÄÜ(´ò¿ª)¶Ë¿ÚGµÄÓ²¼şÊ±ÖÓ£¬¾ÍÊÇ¶Ô¶Ë¿ÚF¹©µç
+	//ä½¿èƒ½(æ‰“å¼€)ç«¯å£Gçš„ç¡¬ä»¶æ—¶é’Ÿï¼Œå°±æ˜¯å¯¹ç«¯å£Fä¾›ç”µ
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG, ENABLE);
 
 
-	//³õÊ¼»¯GPIOÒı½Å
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;		//µÚ11¸ùÒı½Å
-	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_OUT;	//Êä³öÄ£Ê½
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//ÍÆÍìÊä³ö£¬Ôö¼ÓÊä³öµçÁ÷ÄÜÁ¦¡£
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//¸ßËÙÏìÓ¦
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	//Ã»ÓĞÊ¹ÄÜÉÏÏÂÀ­µç×è
+	//åˆå§‹åŒ–GPIOå¼•è„š
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;		//ç¬¬11æ ¹å¼•è„š
+	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_OUT;	//è¾“å‡ºæ¨¡å¼
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//æ¨æŒ½è¾“å‡ºï¼Œå¢åŠ è¾“å‡ºç”µæµèƒ½åŠ›ã€‚
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//é«˜é€Ÿå“åº”
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	//æ²¡æœ‰ä½¿èƒ½ä¸Šä¸‹æ‹‰ç”µé˜»
 
 	GPIO_Init(GPIOG,&GPIO_InitStructure);
 	
 	
 	while(1)
 	{
-		//PG9Òı½ÅÊä³ö¸ßµçÆ½
+		//PG9å¼•è„šè¾“å‡ºé«˜ç”µå¹³
 		//GPIO_SetBits(GPIOG,GPIO_Pin_11);
 		PGout(11)=1;
 		delay();
 		
-		//PG9Òı½ÅÊä³öµÍµçÆ½
+		//PG9å¼•è„šè¾“å‡ºä½ç”µå¹³
 		//GPIO_ResetBits(GPIOG,GPIO_Pin_11);
 		PGout(11)=0;
 		delay();	
