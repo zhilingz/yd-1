@@ -8,6 +8,8 @@
 // 代码如下：
 #include<vector>
 #include<iostream>
+#include<string>
+#include<stack>
 using namespace std;
 int lastStone(vector<int>& stone)
 {
